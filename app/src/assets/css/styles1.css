@@ -1,0 +1,80 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.blog{
+    display:flex;
+    width:100%;
+    min-height: 100vh;
+    font-family: verdana, sans-serif;
+}
+
+.textarea-button {
+    display: flex;
+    flex-direction: column;
+    background-color: #e2c978;
+    align-items: center;
+
+    textarea {
+        width: 28vw;
+        min-width: 400px;
+        min-height: 28vh;
+        margin: 20px;
+        font-family: sans-serif;
+        background-color: lightyellow;
+        border: none;
+        font-size: 12px;
+        color: #4c2f27;
+    }
+    button{
+        margin: 5px;
+        border: none;
+        background-color: lightyellow;
+        cursor:pointer;
+        height: 18px;
+        width: 45px;
+
+    }
+    input{
+        background-color: lightyellow;
+        border: none;
+        height: 18px;
+        width: 180px;
+        font-size: 12px;
+        color: #4c2f27;
+    }
+}
+*:focus {
+    outline: none;
+}
+
+.paragraph-container{
+    background-color: #1a1a20;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.paragraph{
+    width: 300px;
+
+    text-align: justify;
+    margin: 20px;
+}
+
+@media (max-width: 1000px) {
+    .blog {
+        flex-direction: column; /* Dirección cuando el ancho es menor a 768px */
+    }
+    textarea{
+        width: 90vw !important;
+        height: 20vw;
+    }
+
+}
