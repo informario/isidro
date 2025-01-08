@@ -20,7 +20,6 @@ const bcrypt = require('bcrypt');
 //DATABASE//
 const mongoose = require('mongoose')
 const {Schema} = mongoose;
-console.log(process.env.MONGO_URI)
 mongoose.connect(process.env.MONGO_URI)
 
 
@@ -32,7 +31,10 @@ const jwt = require("jsonwebtoken")
 app.get('/', (req, res) => {
     res.send('hello world')
 })
-app.get('')
+
+app.post('/hello', authenticateToken, (req, res) => {
+    res.send('hola soy el server')
+})
 /////////////////////////LOGIN/////////////////////////
 
 const credenciales_validas = async function(username, password){
@@ -48,6 +50,7 @@ const credenciales_validas = async function(username, password){
 }
 
 function authenticateToken(req, res, next){
+    console.log("a")
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if (token==null){

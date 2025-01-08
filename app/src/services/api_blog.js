@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 const apiIsidro = axios.create({
     baseURL: import.meta.env.VITE_VUE_APP_BACKEND_URL,
     headers: {
@@ -10,12 +9,15 @@ export default apiIsidro;
 
 function getHeader(){
     const token = localStorage.getItem('jwt');
-    return {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
+    if (!token) {
+        console.warn('Token no encontrado en localStorage');
     }
+    return {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    };
   }
 
 export const getAuthToken = async (data) =>{
@@ -40,10 +42,10 @@ export const sendSignUpForm = async(data) =>{
     }
 }
 
-export const sayHello = async(data) =>{
+export const hello = async() =>{
     try {
-        const response = await apiIsidro.get('/hello', getHeader());
-        return response.data.authToken;
+        const response = await apiIsidro.post('/hello2', getHeader());
+        return response.data;
     }
     catch (error) {
         console.error('Error al obtener los datos:', error);
