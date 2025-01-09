@@ -44,7 +44,7 @@ export const sendSignUpForm = async(data) =>{
 
 export const hello = async() =>{
     try {
-        const response = await apiIsidro.post('/hello2', getHeader());
+        const response = await apiIsidro.get('/hello', getHeader());
         return response.data;
     }
     catch (error) {

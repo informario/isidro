@@ -17,7 +17,7 @@
           console.log(username.value)
           localStorage.setItem("username", username.value)
           localStorage.setItem("jwt", jwt)
-          router.push("/blog")
+          router.push("/personal")
         })
         .catch(error =>{
           if(error.code === 'ERR_BAD_REQUEST'){

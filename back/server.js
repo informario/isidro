@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
     res.send('hello world')
 })
 
-app.post('/hello', authenticateToken, (req, res) => {
+app.get('/hello', authenticateToken, (req, res) => {
     res.send('hola soy el server')
 })
 /////////////////////////LOGIN/////////////////////////
@@ -50,11 +50,10 @@ const credenciales_validas = async function(username, password){
 }
 
 function authenticateToken(req, res, next){
-    console.log("a")
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if (token==null){
-        console.log(req.headers)
+        console.log('Token not found')
         return res.sendStatus(401)
     }
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,user) =>{
@@ -114,6 +113,26 @@ app.post('/login', async (req, res) =>{
     if(await credenciales_validas(req.body.username, req.body.password)==false){
         return res.sendStatus(403)
     }
-    const accessToken = jwt.sign({username: req.body.username, password: req.body.password}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 20000 })
+    const accessToken = jwt.sign({username: req.body.username, password: req.body.password}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 200 })
     res.json({accessToken: accessToken})
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

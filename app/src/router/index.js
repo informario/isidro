@@ -2,6 +2,8 @@ import { createRouter, createMemoryHistory } from 'vue-router';
 import LogInForm from '@/components/LogInForm.vue'
 import SignUpForm from '@/components/SignUpForm.vue'
 import App from '@/components/App.vue'
+import Personal from '@/components/Personal.vue'
+import NotFound from '@/components/NotFound.vue'
 
 const routes = [
     {
@@ -15,9 +17,18 @@ const routes = [
         component: SignUpForm
     },
     {
-        path: '/',
-        name: 'App',
-        component: App // Puedes redirigir a cualquier componente que desees como página principal
+        path: '/personal',
+        name: 'Personal',
+        component: Personal
+    },
+    {
+        path: '',
+        redirect: '/personal', // O cualquier ruta válida
+    },
+    {
+        path: '/:catchAll(.*)',
+        name: '404',
+        component: NotFound
     },
 ];
 
