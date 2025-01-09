@@ -7,7 +7,7 @@ const apiIsidro = axios.create({
 });
 export default apiIsidro;
 
-function getHeader(){
+export function getHeader(){
     const token = localStorage.getItem('jwt');
     if (!token) {
         console.warn('Token no encontrado en localStorage');

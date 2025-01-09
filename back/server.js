@@ -35,6 +35,8 @@ app.get('/', (req, res) => {
 app.get('/hello', authenticateToken, (req, res) => {
     res.send('hola soy el server')
 })
+
+
 /////////////////////////LOGIN/////////////////////////
 
 const credenciales_validas = async function(username, password){
@@ -118,6 +120,7 @@ app.post('/login', async (req, res) =>{
 })
 
 
+/////////////////////////cargar gastos/////////////////////////
 
 
 
