@@ -11,6 +11,7 @@ export default apiPersonal;
 
 
 export const cargarGastoCajaChica = async(data) =>{
+    console.log(data);
     try {
         const response = await apiPersonal.post('/cargargastocajachica', data, getHeader());
         return response.data;

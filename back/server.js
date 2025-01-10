@@ -121,8 +121,30 @@ app.post('/login', async (req, res) =>{
 
 
 /////////////////////////cargar gastos/////////////////////////
+const GastoCajaChicaSchema = new Schema({
+    monto: String,
+    descripcion: String,
+    usuario: String,
+})
+const GastoCajaChica = mongoose.model('cajachica', GastoCajaChicaSchema);
 
 
+app.post('/cargargastocajachica', authenticateToken, async (req, res) =>{
+    let gastoCajaChica = new GastoCajaChica({
+        //TO DO: verificar que el usuario en el body coincida con el token
+        monto: req.body.monto,
+        descripcion: req.body.descripcion,
+        usuario: req.body.username,
+    })
+    await gastoCajaChica.save()
+        .then( () => {
+            res.sendStatus(200)
+        })
+        .catch((error) => {
+            res.sendStatus(500)
+            console.log(error)
+        })
+})
 
 
 
