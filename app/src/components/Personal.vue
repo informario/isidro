@@ -7,19 +7,17 @@
 </template>
 
 <script setup>
-  import {hello} from "@/services/api_blog.js";
   import { ref } from 'vue'
   import { useRouter, useRoute } from 'vue-router'
   import CargarGastos from "@/components/personal/CargarGastos.vue";
   import InscripcionSocio from "@/components/personal/InscripcionSocio.vue";
   import RegistrarIngreso from "@/components/personal/RegistrarIngreso.vue";
+  import {isauth} from "@/services/auth.js";
   const router = useRouter()
   const route = useRoute();
 
-  async function sayHello(){
-    await sleep(500);
-
-    await hello()
+  async function checkauth(){
+    await isauth()
       .then(data => {
         console.log(data)
       })
@@ -29,10 +27,7 @@
         console.log("pushed")
       })
   }
-  sayHello()
-  function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
+  checkauth()
 </script>
 
 <style>

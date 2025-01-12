@@ -1,8 +1,8 @@
 <script setup>
 
   import {ref} from "vue";
-  import {getAuthToken} from "@/services/api_blog.js";
   import { useRouter } from 'vue-router'
+  import {login} from "@/services/auth.js";
   const router = useRouter()
   const username = ref("")
   const password = ref("")
@@ -12,12 +12,18 @@
       window.alert("Por favor completar los campos correspondientes")
     }
     else{
-      await getAuthToken({username:username.value, password:password.value})
-        .then(jwt =>{
-          console.log(username.value)
+      await login({username:username.value, password:password.value})
+        .then(response =>{
           localStorage.setItem("username", username.value)
-          localStorage.setItem("jwt", jwt)
-          router.push("/personal")
+          localStorage.setItem("jwt", response.accessToken)
+          switch (response.role) {
+            case 'Personal':
+              router.push("/personal")
+              break;
+            default:
+              console.log("unknown role");
+              router.push("/login")
+          }
         })
         .catch(error =>{
           if(error.code === 'ERR_BAD_REQUEST'){

@@ -1,19 +1,20 @@
 <script setup>
 
   import {ref} from "vue";
-  import {sendSignUpForm} from "@/services/api_blog.js";
+  import {signup} from "@/services/auth.js";
 
 
   const email = ref("")
   const username = ref("")
   const password = ref("")
+  const role = ref("")
 
   const signUp = async function (){
     if (email.value === "" || username.value === "" || password.value === "") {
       window.alert("Por favor completar los campos correspondientes")
     }
     else{
-      await sendSignUpForm({email:email.value, username:username.value, password:password.value})
+      await signup({email:email.value, username:username.value, password:password.value, role:role.value})
           .then(_ => {
             window.alert("usuario creado con exito")
           })
@@ -40,6 +41,15 @@
       <input class="input" type="email" placeholder="john@example.com" v-model="email">
       <input class="input" placeholder="Username" v-model="username">
       <input class="input" type="password" placeholder="Password" v-model="password">
+      <label>role: </label>
+      <select id="options" name="options" v-model="role">
+        <option value="Personal">Personal</option>
+        <option value="Regente">Regente</option>
+        <option value="Cooperadora">Cooperadora</option>
+        <option value="Director">Director</option>
+        <option value="Seguridad">Seguridad</option>
+      </select>
+      <div/>
       <button class="button" @click="signUp()">Sign Up</button>
       <div class="text">
         <p>Already have an account? <RouterLink to="/login">Log In</RouterLink></p>

@@ -23,7 +23,7 @@ const routes = [
     },
     {
         path: '',
-        redirect: '/personal', // O cualquier ruta válida
+        redirect: '/login', // O cualquier ruta válida
     },
     {
         path: '/:catchAll(.*)',
