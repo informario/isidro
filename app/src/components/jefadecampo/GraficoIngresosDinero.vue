@@ -10,6 +10,9 @@
     datasets: [ { data: [40, 20, 12] } ]
   })
   const chartOptions = reactive({
+    layout: {
+      padding: 200
+    },
     responsive: true
   })
 
@@ -17,14 +20,13 @@
 
 <template>
 ///    GRAFICO INGRESOS DINERO
-  <Bar
-      id="my-chart-id"
-      :options="chartOptions"
-      :data="chartData"
+  <Bar id="my-chart-id" :options="chartOptions" :data="chartData" class="plot"
   />
 
 </template>
 
 <style scoped>
-
+.plot{
+  height: 500px;
+}
 </style>
