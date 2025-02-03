@@ -45,7 +45,6 @@ const login = async function (req, res) {
     }
     let role = await getUserRoleByUsername(req.body.username)
     const accessToken = jwt.sign({username: req.body.username, password: req.body.password, role:role}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 200 })
-    console.log(accessToken)
     res.json({accessToken: accessToken, role:role})
 }
 

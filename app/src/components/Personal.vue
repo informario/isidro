@@ -1,6 +1,5 @@
 <template>
   <div id="app" class="container">
-    <CargarGastos class="item"/>
     <InscripcionSocio class="item"/>
     <RegistrarIngreso class="item"/>
   </div>

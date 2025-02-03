@@ -44,9 +44,9 @@
       <label>role: </label>
       <select id="options" name="options" v-model="role">
         <option value="Personal">Personal</option>
-        <option value="Regente">Regente</option>
+        <option value="Regente ADM">Regente ADM</option>
         <option value="Cooperadora">Cooperadora</option>
-        <option value="Director">Director</option>
+        <option value="Jefa de Campo">Jefa de Campo</option>
         <option value="Seguridad">Seguridad</option>
       </select>
       <div/>

@@ -1,4 +1,5 @@
 const PettyCashExpense = require('../models/PettyCashExpense');
+const Income = require('../models/Income');
 
 // Cargar un nuevo gasto
 async function loadPettyCashExpense(req, res) {
@@ -21,6 +22,26 @@ async function loadPettyCashExpense(req, res) {
     }
 }
 
+async function loadIncome(req, res) {
+    console.log(req.body)
+    const dniClient = req.body.dniClient;
+    const amount = req.body.amount;
+    const date = new Date();
+    const income = new Income({
+        dniClient,
+        amount,
+        date
+    });
+    try {
+        await income.save();
+        res.sendStatus(200);
+    } catch (error) {
+        console.error('Error al guardar el income:', error);
+        res.sendStatus(500);
+    }
+}
+
 module.exports = {
     loadPettyCashExpense,
+    loadIncome,
 };

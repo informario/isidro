@@ -1,11 +1,11 @@
 <script setup>
 import {ref} from "vue";
-import {loadpettycashexpense} from "@/services/personal.js";
+import {loadPettyCashExpense} from "@/services/personal.js";
 const description = ref("")
 const amount = ref(0)
 const MAX_GASTO_CAJA_CHICA = 10000
 const botonCargarGastosCajaChica = async function (){
-  await loadpettycashexpense({description:description.value, amount:amount.value})
+  await loadPettyCashExpense({description:description.value, amount:amount.value})
       .then()
       .catch(error =>{
           console.log("Cargargastos, error cargando gasto", error)

@@ -20,6 +20,9 @@
             case 'Personal':
               router.push("/personal")
               break;
+            case 'Jefa de Campo':
+              router.push("/jefadecampo");
+              break;
             default:
               console.log("unknown role");
               router.push("/login")
