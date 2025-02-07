@@ -10,20 +10,43 @@
 
 
   ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-  const chartData = reactive({
-    labels: [ 'January', 'February', 'March' ],
-    datasets: [ { data: [40, 20, 12] } ]
+  let chartData = ref({
+    labels: [],
+    datasets: [ { data: [] } ]
   })
   const chartOptions = reactive({
     layout: {
     },
-    responsive: true
+    responsive: true,
+    maintainAspectRatio: false,
   })
 
   const clickGetIncomes = async function (){
     let from = fromref.value + "T00:00:00.000+00:00";
     let until = untilref.value + "T23:59:59.999+00:00";
-    console.log(await getIncomes({from, until}));
+    let incomes = await getIncomes({ from, until });
+    let acc = parseIncomes(incomes);
+
+    const orderedDateLabels = Object.keys(acc).sort((a, b) => new Date(a) - new Date(b));
+
+    chartData.value = { ...chartData.value, labels: [...orderedDateLabels] };
+    chartData.value.datasets = [{
+      label: "Ingresos",
+      backgroundColor: "#42A5F5",
+      data: orderedDateLabels.map(date => acc[date])
+    }];
+
+    console.log(chartData.value.labels);
+    console.log(chartData.value.datasets[0].data);
+
+  }
+  const parseIncomes = function(incomes){
+    let acc = {};
+    for (let i=0; i<incomes.length; i++){
+      const day = incomes[i].date.split("T")[0];
+      acc[day] = (acc[day] || 0) + incomes[i].amount;
+    }
+    return acc;
   }
 
 </script>
