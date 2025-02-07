@@ -41,7 +41,38 @@ async function loadIncome(req, res) {
     }
 }
 
+async function getIncomes(req, res){
+    const from = req.query.from;
+    const until = req.query.until;
+    console.log(from, until)
+    // Validar que las fechas estén presentes
+    if (!from || !until) {
+        return res.status(400).json({ error: 'Faltan parámetros en la consulta' });
+    }
+    try {
+        // Convertir las fechas a objetos Date de MongoDB
+        const startDate = new Date(from);
+        const endDate = new Date(until);
+
+        // Filtrar documentos dentro del rango de fechas
+        const incomes = await Income.find({
+            date: {
+                $gte: startDate,
+                $lte: endDate
+            }
+        });
+
+        // Responder con los documentos encontrados
+        res.json(incomes);
+    } catch (error) {
+        console.error('Error al obtener ingresos:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+
+}
+
 module.exports = {
     loadPettyCashExpense,
     loadIncome,
+    getIncomes,
 };
