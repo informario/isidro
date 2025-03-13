@@ -23,6 +23,9 @@
             case 'Jefa de Campo':
               router.push("/jefadecampo");
               break;
+            case 'Seguridad':
+              router.push("/seguridad");
+              break;
             default:
               console.log("unknown role");
               router.push("/login")

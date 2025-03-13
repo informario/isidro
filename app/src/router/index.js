@@ -5,6 +5,7 @@ import App from '@/components/App.vue'
 import Personal from '@/components/Personal.vue'
 import NotFound from '@/components/NotFound.vue'
 import JefaDeCampo from "@/components/JefaDeCampo.vue";
+import Seguridad from "@/components/Seguridad.vue";
 
 const routes = [
     {
@@ -26,6 +27,11 @@ const routes = [
         path: '/jefadecampo',
         name: 'JefaDeCampo',
         component: JefaDeCampo
+    },
+    {
+        path: '/seguridad',
+        name: 'Seguridad',
+        component: Seguridad
     },
     {
         path: '',

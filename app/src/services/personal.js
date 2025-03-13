@@ -7,3 +7,7 @@ export const loadPettyCashExpense = async (data) => {
 export const loadIncome = async (data) => {
     return makeRequest('post', '/expenses/income', data);
 };
+
+export const enroll = async (data) => {
+    return makeRequest('post', '/member/enroll', data);
+};
