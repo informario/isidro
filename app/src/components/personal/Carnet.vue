@@ -1,5 +1,10 @@
 <script setup>
-    const props = defineProps(['name', 'dni', 'birthdate']);
+    const props = defineProps({
+    datos: {
+        type: Object,
+        required: true
+    }
+    })
     import { ref } from 'vue';
 </script>
 
@@ -8,14 +13,11 @@
         <div class="header">Municipalidad de San Isidro</div>
         <div class="header">Dirección General de Tercera Edad</div>
         <hr>
-        <div class="content">
-            <div class="datos">
-                <p><strong>Nombre:</strong> {{ name }}</p>
-                <p><strong>DNI:</strong> {{ dni }}</p>
-                <p><strong>Fecha de nacimiento:</strong> {{ birthdate }}</p>
-            </div>
-            <div class="qr">QR</div>
-        </div>
+        <ul>
+            <li v-for="(valor, clave) in datos" :key="clave">
+                <strong>{{ clave }}:</strong> {{ valor }}
+            </li>
+        </ul>
     </div>
 </template>
 

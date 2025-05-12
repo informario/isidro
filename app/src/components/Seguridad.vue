@@ -4,26 +4,31 @@
     import Carnet from "@/components/personal/Carnet.vue";
     import {Html5QrcodeScanner} from "html5-qrcode"
     import {Html5Qrcode} from "html5-qrcode"
+    import {getMemberData} from "@/services/seguridad.js";
+
     const isVisible = ref(false);
     const name = ref("ss");
     const dni = ref("ss");
     const birthdate = ref("ss");
-
-
-    function onScanSuccess(decodedText, decodedResult) {
+    const datos = ref({})
+    async function onScanSuccess(decodedText, decodedResult) {
         const a = JSON.parse(decodedText);
+        const result = await getMemberData(a)
+        console.log(result);
+        datos.value=result;
+        /*
         name.value = a.name;
         dni.value = a.dni;
         birthdate.value = a.birthdate;
         console.log(a)
 
         //router.push("/carnet")
+        */
         isVisible.value=true
-
     }
 
     function onScanFailure(error) {
-        console.log("f")
+        //console.log("f")
     }
 
     onMounted(() => {
@@ -34,7 +39,7 @@
     });
 
     function remove() {
-        isVisible.value=false;
+        isVisible.value=false
     }
 
 </script>
@@ -45,7 +50,7 @@
         <div class="reader" id="reader" width="600px"></div>
     </div>
     <div class="carnet_container">
-        <Carnet :name="name" :dni="dni" :birthdate="birthdate" v-if="isVisible"/>
+        <Carnet :datos="datos" v-if="isVisible"/>
         <input type="button" v-if="isVisible" @click=remove>
     </div>
 </template>

@@ -22,9 +22,9 @@
       email: email.value,
       emergencyPhone: emergencyPhone.value,
     }
-    await enroll(data).then(_ => {
+    await enroll(data).then(response => {
       alert("Socio generado con éxito")
-      jsonData.value=data;
+      jsonData.value=response;
       jsonString.value = JSON.stringify(jsonData.value);
       isVisible.value=true
     })
@@ -34,7 +34,7 @@
     })
   }
 
-  const createQr = function(data){
+  const createQr = function(response){
     
   }
 </script>
@@ -45,7 +45,7 @@
       <h1 class="title">Inscripción de socio</h1>
       <input class="input" placeholder="Nombre" v-model="name">
       <input class="input" placeholder="DNI" v-model="dni">
-      <input class="input" placeholder="Fecha de nacimiento" v-model="birthdate">
+      <input type ="date" class="input" placeholder="Fecha de nacimiento" v-model="birthdate">
       <input class="input" placeholder="Email" v-model="email">
       <input class="input" placeholder="Telefono de emergencia" v-model="emergencyPhone">
       <div></div>
