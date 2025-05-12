@@ -1,22 +1,29 @@
 <script setup>
-    import { onMounted, ref } from 'vue';
-
-    // To use Html5QrcodeScanner (more info below)
+    import { onMounted, ref, isProxy, toRaw } from 'vue';
+    import { useRouter } from 'vue-router'
+    import Carnet from "@/components/personal/Carnet.vue";
     import {Html5QrcodeScanner} from "html5-qrcode"
-
-    // To use Html5Qrcode (more info below)
     import {Html5Qrcode} from "html5-qrcode"
+    const isVisible = ref(false);
+    const name = ref("ss");
+    const dni = ref("ss");
+    const birthdate = ref("ss");
 
 
     function onScanSuccess(decodedText, decodedResult) {
-    // handle the scanned code as you like, for example:
-    alert(`Code matched = ${decodedText}`, decodedResult);
+        const a = JSON.parse(decodedText);
+        name.value = a.name;
+        dni.value = a.dni;
+        birthdate.value = a.birthdate;
+        console.log(a)
+
+        //router.push("/carnet")
+        isVisible.value=true
+
     }
 
     function onScanFailure(error) {
-    // handle scan failure, usually better to ignore and keep scanning.
-    // for example:
-    console.warn(`Code scan error = ${error}`);
+        console.log("f")
     }
 
     onMounted(() => {
@@ -26,14 +33,25 @@
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     });
 
+    function remove() {
+        isVisible.value=false;
+    }
+
 </script>
 
 <template>
-HOLA SEGURIDAD
-<div id="reader" width="600px"></div>
-
+    HOLA SEGURIDAD
+    <div class="qrscanner_container">
+        <div class="reader" id="reader" width="600px"></div>
+    </div>
+    <div class="carnet_container">
+        <Carnet :name="name" :dni="dni" :birthdate="birthdate" v-if="isVisible"/>
+        <input type="button" v-if="isVisible" @click=remove>
+    </div>
 </template>
 
 <style scoped>
-
+.reader{
+    width: 600px;
+}
 </style>
