@@ -1,11 +1,11 @@
 import { createRouter, createMemoryHistory } from 'vue-router';
-import LogInForm from '@/components/LogInForm.vue'
-import SignUpForm from '@/components/SignUpForm.vue'
+import LogInForm from '@/components/auth/LogInForm.vue'
+import SignUpForm from '@/components/auth/SignUpForm.vue'
 import App from '@/components/App.vue'
-import Personal from '@/components/Personal.vue'
+import Personal from '@/components/personal/Personal.vue'
 import NotFound from '@/components/NotFound.vue'
-import JefaDeCampo from "@/components/JefaDeCampo.vue";
-import Seguridad from "@/components/Seguridad.vue";
+import JefaDeCampo from "@/components/jefadecampo/JefaDeCampo.vue";
+import Seguridad from "@/components/seguridad/Seguridad.vue";
 
 const routes = [
     {
