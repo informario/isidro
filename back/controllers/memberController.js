@@ -44,11 +44,26 @@ async function getMember(req, res) {
     return
 }
 
-
+async function getMemberByDNI(req, res) {
+    console.log(req.query)
+    if(req.query.dni==undefined){
+        res.status(400).json({ error: 'Falta parámetro dni' });
+        return
+    }
+    let result = await Member.find({dni:req.query.dni})
+    console.log(result)
+    if(result!=null){
+        res.send(result).status(200);
+        return
+    }
+    res.status(400).send({ error: 'Socio no encontrado' });
+    return
+}
 
 
 
 module.exports = {
     enrollMember,
     getMember,
+    getMemberByDNI
 };

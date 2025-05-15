@@ -2,6 +2,7 @@
   <div id="app" class="container">
     <InscripcionSocio class="item"/>
     <RegistrarIngreso class="item"/>
+    <BuscarSocio class="item"/>
   </div>
 </template>
 
@@ -11,6 +12,7 @@
   import CargarGastos from "@/components/personal/CargarGastos.vue";
   import InscripcionSocio from "@/components/personal/InscripcionSocio.vue";
   import RegistrarIngreso from "@/components/personal/RegistrarIngreso.vue";
+  import BuscarSocio from "@/components/personal/BuscarSocio.vue";
   import {isauth} from "@/services/auth.js";
   const router = useRouter()
   const route = useRoute();

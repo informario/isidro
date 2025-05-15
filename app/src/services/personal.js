@@ -11,3 +11,8 @@ export const loadIncome = async (data) => {
 export const enroll = async (data) => {
     return makeRequest('post', '/member/enroll', data);
 };
+
+export const getMemberByDNI = async (data) => {
+    const queryString = new URLSearchParams(data).toString();
+    return makeRequest('get', `/member/dni?${queryString}`, data);
+};
