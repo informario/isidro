@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    <div class="content">
+    <div class="flex flex-col">
             Sidebar
         <button>Inscribir socio</button>
         <button>Buscar socio</button>
@@ -10,22 +10,5 @@
 </template>
 
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden; /* opcional, según el caso */
-  }
-.content{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    border: solid black;
-    text-align: center;
-}
-button{
-    margin:5px;
-}
 
 </style>

@@ -45,14 +45,14 @@
 
 <template>
   <div class="flex items-center justify-center h-screen w-screen bg-gray-200 dark:bg-gray-800 ring-gray-900/5">
-    <div class="w-1/3 h-2/3 flex flex-col items-center justify-center rounded-md bg-white p-2 shadow-lg font-light">
-      <p class="text-4xl m-3 font-medium">Welcome</p>
-      <p class="text-xl m-2 font-normal">Log in to continue</p>
-      <input class="border border-gray-400 text-gray-600 p-2 rounded-md m-3" placeholder="Username" v-model="username">
-      <input class="border border-gray-400 text-gray-600 p-2 rounded-md m-3" placeholder="Password" type="password" v-model="password">
-      <button class="border bg-indigo-600 text-white p-2 rounded-md m-3" @click="logIn()">Log in</button>
+    <div class="w-1/3 h-2/3 flex flex-col items-center justify-center rounded-md bg-white dark:bg-gray-900 p-2 shadow-lg font-light">
+      <p class="text-4xl m-3 font-medium dark:text-white">Welcome</p>
+      <p class="text-xl m-2 font-normal dark:text-white">Log in to continue</p>
+      <input class="border border-gray-400 text-gray-600 dark:text-white p-2 rounded-md m-3" placeholder="Username" v-model="username">
+      <input class="border border-gray-400 text-gray-600 dark:text-white p-2 rounded-md m-3" placeholder="Password" type="password" v-model="password">
+      <button class="bg-indigo-600 text-white p-2 rounded-md m-3" @click="logIn()">Log in</button>
       <div class="">
-        <p class="m-3">Don't have an account?  <RouterLink class="text-blue-600" to="/signup">Sign Up</RouterLink></p>
+        <p class="m-3 dark:text-white">Don't have an account?  <RouterLink class="text-blue-600" to="/signup">Sign Up</RouterLink></p>
       </div>
   </div>
 </div>

@@ -2,7 +2,10 @@
 </script>
 
 <template>
-    Topbar
+    <div>
+        <p>isidro:personal</p>
+        
+    </div>
 </template>
 
 <style>
