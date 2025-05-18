@@ -8,7 +8,7 @@
     </div>
     <div class="flex flex-row h-19/20">
       <transition name="slide">
-        <div v-if="sidebarVisible" class="mr-2 mb-2 w-1/2 md:w-1/6 transition-all duration-300 rounded-xl bg-white shadow-lg">
+        <div v-if="sidebarVisible" class="mr-2 mb-2 p-2 w-1/2 md:w-1/6 transition-all duration-300 rounded-xl bg-white shadow-lg">
           <div class="flex flex-col">
             <button @click="contentOption = 'Inscribir socio'">Inscribir socio</button>
             <button @click="contentOption = 'Buscar socio'">Buscar socio</button>
