@@ -7,8 +7,8 @@ const MemberSchema = new Schema({
     timestamp: { type: Date, required: true },
     timestamp_modificacion: { type: Date, required: true },
     numero_solicitud: { type: Number, required: true },
+    ultimo_cambio_operador: { type: String, required: false },
     operador: { type: String, required: true },
-    uuid: {type: String, required: true },
     
     //datos del socio
     dni: { type: String, required: true },
@@ -31,6 +31,7 @@ const MemberSchema = new Schema({
     estatus: { type: String, required: false },
     tiene_domicilio_en_san_isidro: { type: Boolean, required: true },
     causa_no_domicilio_san_isidro: { type: String, required: false },
+    inscripcion: { type: Date, required: true },
     suspendido_hasta: { type: Date, required: true },
 
     //datos contacto de emergencia
@@ -53,9 +54,12 @@ const MemberSchema = new Schema({
     acude_tratamiento_ambulatorio: { type: Boolean, required: false },
 
     //datos varios
+    acepta_acuerdo: { type: Boolean, required: true },
+    asiste_centro_educativo: { type: Boolean, required: false },
     centro_educativo: { type: String, required: false },
     refuerzo_alimentario: { type: Boolean, required: false },
     comedor_comunitario: { type: String, required: false },
+    educacion_alcanzada: { type: String, required: false },
     tiene_trabajo: { type: Boolean, required: false },
     condicion_trabajo: { type: String, required: false },
     actividad_principal: { type: String, required: false },
