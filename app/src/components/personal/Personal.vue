@@ -34,9 +34,7 @@
 <script setup>
   import { ref } from 'vue'
   import { useRouter, useRoute } from 'vue-router'
-  import CargarGastos from "@/components/personal/CargarGastos.vue";
   import InscripcionSocio from "@/components/personal/InscripcionSocio.vue";
-  import RegistrarIngreso from "@/components/personal/RegistrarIngreso.vue";
   import BuscarSocio from "@/components/personal/BuscarSocio.vue";
   import {isauth} from "@/services/auth.js";
   import Topbar from '@/components/personal/Topbar.vue';
