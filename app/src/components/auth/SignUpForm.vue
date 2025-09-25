@@ -59,6 +59,5 @@
 </template>
 
 <style scoped>
-  @import '../../assets/css/styles0.css';
-  
+
 </style>
