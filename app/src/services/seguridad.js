@@ -4,3 +4,7 @@ export const getMemberData = async (data) => {
     const queryString = new URLSearchParams(data).toString();
     return makeRequest('get', `/member?${queryString}`, data);
 };
+export const getMedicalData = async (data) => {
+    const queryString = new URLSearchParams(data).toString();
+    return makeRequest('get', `/datos?${queryString}`);
+};

@@ -4,7 +4,14 @@
 
 <template>
   <div id="app">
-    <router-view></router-view>
+    <Suspense>
+      <template #default>
+        <router-view></router-view>
+      </template>
+      <template #fallback>
+        <div>Cargando...</div>
+      </template>
+    </Suspense>
   </div>
 </template>
 

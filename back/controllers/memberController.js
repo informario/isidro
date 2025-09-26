@@ -80,27 +80,6 @@ async function updateMember(req, res) {
     }
 }
 
-
-
-
-
-async function getMember(req, res) {
-    console.log(req.query)
-    if(req.query.uuid===undefined){
-        res.status(400).json({ error: 'Falta parámetro uuid' });
-        return
-    }
-    let result = await Member.findOne()
-        .where('uuid').equals(req.query.uuid)
-        .exec();
-    console.log(result)
-    if(result!=null){
-        res.send(result).status(200);
-        return
-    }
-    res.status(400).send({ error: 'Socio no encontrado' });
-}
-
 async function getMemberByDNI(req, res) {
     console.log(req.query)
     if (req.query.dni === undefined) {
@@ -136,11 +115,41 @@ async function getMemberByDNI(req, res) {
     res.status(404).send({ error: 'Member not found' });
 }
 
-
+async function memberMedicalData(req, res) {
+    console.log(req.query)
+    if (req.query.dni === undefined) {
+        res.status(400).json({ error: 'Missing dni parameter' });
+        return;
+    }
+    const dni = parseInt(req.query.dni, 10);
+    console.log(dni);
+    if (isNaN(dni)) {
+        res.status(400).json({ error: 'dni must be a number' });
+        return;
+    }
+    // Buscar el documento PersonalData por dni
+    const personalData = await PersonalData.findOne({ dni });
+    if (!personalData) {
+        res.status(404).send({ error: 'PersonalData not found' });
+        return;
+    }
+    // Buscar el Member por referencia a datos_personales y poblar los datos
+    const member = await Member.findOne({ datos_personales: personalData._id })
+        .populate('datos_medicos')
+        .populate('contacto_emergencia');
+    if (member) {
+        res.status(200).send({
+            medicalData: member.datos_medicos,
+            emergencyContact: member.contacto_emergencia
+        });
+        return;
+    }
+    res.status(404).send({ error: 'Member not found' });
+}
 
 module.exports = {
     enrollMember,
-    getMember,
     getMemberByDNI,
-    updateMember
+    updateMember,
+    memberMedicalData
 };

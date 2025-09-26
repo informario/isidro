@@ -1,13 +1,13 @@
 <script setup>
-  import QrcodeVue from 'qrcode.vue';
+const apiDomain = import.meta.env.VITE_API_DOMAIN;
+import QrcodeVue from 'qrcode.vue';
   const props = defineProps({
     datos: {
         type: Object,
         required: true
     }
   })
-  const qrUrl = `https://localhost:5173/datos?dni=${props.datos.dni}`;
-  import { ref } from 'vue';
+  const qrUrl = `${apiDomain}/datos?dni=${props.datos.dni}`;  import { ref } from 'vue';
 </script>
 
 <template>

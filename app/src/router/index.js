@@ -1,4 +1,4 @@
-import { createRouter, createMemoryHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import LogInForm from '@/components/auth/LogInForm.vue'
 import SignUpForm from '@/components/auth/SignUpForm.vue'
 import App from '@/components/App.vue'
@@ -6,6 +6,7 @@ import Personal from '@/components/personal/Personal.vue'
 import NotFound from '@/components/NotFound.vue'
 import JefaDeCampo from "@/components/jefadecampo/JefaDeCampo.vue";
 import Seguridad from "@/components/seguridad/Seguridad.vue";
+import Datos from "@/components/seguridad/Datos.vue";
 
 const routes = [
     {
@@ -34,9 +35,16 @@ const routes = [
         component: Seguridad
     },
     {
-        path: '',
+        path: '/datos',
+        name: 'Datos',
+        component: Datos
+
+    },
+    {
+        path: '/',
         redirect: '/login', // O cualquier ruta válida
     },
+
     {
         path: '/:catchAll(.*)',
         name: '404',
@@ -46,7 +54,7 @@ const routes = [
 
 
 const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(),
     routes
 });
 

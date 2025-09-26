@@ -15,6 +15,7 @@
           searchResult.value = response;
           // Pre-fill the form
           if (formSocioRef.value) {
+            console.log(response)
             const pd = response.personalData;
             if (pd.fecha_nacimiento) {
               pd.fecha_nacimiento = pd.fecha_nacimiento.split('T')[0];

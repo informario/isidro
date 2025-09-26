@@ -17,5 +17,5 @@ export const update = async (data) => {
 
 export const getMemberByDNI = async (data) => {
     const queryString = new URLSearchParams(data).toString();
-    return makeRequest('get', `/member/dni?${queryString}`, data);
+    return makeRequest('get', `/member/dni?${queryString}`);
 };
