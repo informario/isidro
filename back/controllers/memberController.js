@@ -28,8 +28,8 @@ async function enrollMember(req, res) {
             contacto_emergencia: savedEmergencyContact._id,
             datos_medicos: savedMedicalData._id
         });
-        const savedMember = await newMember.save();
-        res.status(201).json({ message: 'Socio inscrito con éxito', uuid: newMember.uuid, dni: newPersonalData.dni });
+        await newMember.save();
+        res.status(201).json({ message: 'Socio inscrito con éxito', uuid: newMember.uuid, dni: savedPersonalData.dni });
 
     } catch (error) {
         if (error.name === 'ValidationError') {
@@ -147,9 +147,31 @@ async function memberMedicalData(req, res) {
     res.status(404).send({ error: 'Member not found' });
 }
 
+// Nueva función: obtener todos los members (sin paginación)
+async function getAllMembers(req, res) {
+    try {
+        const query = {}; // sin filtros por defecto
+
+        const total = await Member.countDocuments(query);
+
+        const members = await Member.find(query)
+            .populate('datos_personales')
+            .populate('datos_medicos')
+            .populate('contacto_emergencia')
+            .sort({ timestamp: -1 })
+            .exec();
+
+        res.status(200).json({ total, count: members.length, members });
+    } catch (error) {
+        console.error('getAllMembers error:', error);
+        res.status(500).json({ error: 'Server error', details: error.message });
+    }
+}
+
 module.exports = {
     enrollMember,
     getMemberByDNI,
     updateMember,
-    memberMedicalData
+    memberMedicalData,
+    getAllMembers
 };
