@@ -2,7 +2,64 @@ const Member = require('../models/Member');
 const PersonalData = require('../models/PersonalData');
 const EmergencyContact = require('../models/EmergencyContact');
 const MedicalData = require('../models/MedicalData');
+const MemberRegistry = require('../models/MemberRegistry');
 const { v4: uuidv4 } = require('uuid');
+
+
+async function logMemberAction(userId, memberId, action = 'other') {
+    if (!userId || !memberId) return null;
+    try {
+        const entry = new MemberRegistry({
+            user: userId,
+            member: memberId,
+            action
+        });
+        return await entry.save();
+    } catch (err) {
+        console.error('logMemberAction error:', err);
+        // swallow or rethrow depending on desired fault tolerance
+        return null;
+    }
+}
+
+async function getLastChanges(req, res) {
+    try {
+        const limit = 20;
+
+        // Get unique member ids ordered by their most recent registry timestamp
+        const groups = await MemberRegistry.aggregate([
+            { $group: { _id: '$member', lastTimestamp: { $max: '$timestamp' } } },
+            { $sort: { lastTimestamp: -1 } },
+            { $limit: limit }
+        ]);
+
+        const memberIds = groups.map(g => g._id).filter(Boolean);
+        if (memberIds.length === 0) {
+            return res.status(200).json({ count: 0, dnis: [] });
+        }
+
+        // Fetch members and their personal data
+        const members = await Member.find({ _id: { $in: memberIds } })
+            .populate('datos_personales')
+            .select('datos_personales')
+            .lean();
+
+        const memberMap = new Map(members.map(m => [String(m._id), m]));
+
+        // Preserve order from aggregation and extract DNI
+        const dnis = memberIds.map(id => {
+            const mem = memberMap.get(String(id));
+            return mem && mem.datos_personales ? mem.datos_personales.dni : null;
+        }).filter(dni => dni !== null);
+
+        return res.status(200).json({ count: dnis.length, dnis });
+    } catch (error) {
+        console.error('getLastChanges error:', error);
+        return res.status(500).json({ error: 'Server error', details: error.message });
+    }
+}
+
+
 
 async function enrollMember(req, res) {
     try {
@@ -29,8 +86,9 @@ async function enrollMember(req, res) {
             datos_medicos: savedMedicalData._id
         });
         await newMember.save();
-        res.status(201).json({ message: 'Socio inscrito con éxito', uuid: newMember.uuid, dni: savedPersonalData.dni });
 
+        res.status(201).json({ message: 'Socio inscrito con éxito', uuid: newMember.uuid, dni: savedPersonalData.dni });
+        await logMemberAction(req.user.username, member._id, 'create');
     } catch (error) {
         if (error.name === 'ValidationError') {
             res.status(400).json({error: 'Schema validation error', details: error.message});
@@ -74,6 +132,7 @@ async function updateMember(req, res) {
                 { new: true }
             );
         }
+        await logMemberAction(req.user.username, member._id, 'update');
         res.status(200).json({ message: 'Member updated successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Server error', details: error.message });
@@ -173,5 +232,6 @@ module.exports = {
     getMemberByDNI,
     updateMember,
     memberMedicalData,
-    getAllMembers
+    getAllMembers,
+    getLastChanges
 };

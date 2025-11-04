@@ -15,6 +15,7 @@ function authenticateToken(req, res, next){
         }
 
         req.user = user; // Guarda el usuario decodificado en el objeto `req`
+        console.log("req.user:", req.user)
         next(); // Pasa al siguiente middleware
     });
 }

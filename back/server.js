@@ -32,11 +32,9 @@ mongoose.connect(process.env.MONGO_URI)
 const jwt = require("jsonwebtoken")
 
 const authRoutes = require('./routes/authRoutes');
-const expensesRoutes = require('./routes/expensesRoutes');
 const memberRoutes = require('./routes/memberRoutes');
 
 app.use(authRoutes);
-app.use(expensesRoutes);
 app.use(memberRoutes);
 
 

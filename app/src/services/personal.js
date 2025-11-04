@@ -24,3 +24,7 @@ export const getAllMembers = async () => {
     // Actualmente el endpoint devuelve todos los members sin parámetros
     return makeRequest('get', '/member/all');
 };
+
+export const getLastChanges = async () => {
+    return makeRequest('get', '/member/lastChanges');
+};
