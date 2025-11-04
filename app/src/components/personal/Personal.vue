@@ -13,6 +13,7 @@
             <button @click="contentOption = 'Inscribir socio'">Inscribir socio</button>
             <button @click="contentOption = 'Buscar socio'">Buscar socio</button>
             <button @click="contentOption = 'Imprimir carnets'">Imprimir carnets</button>
+            <button @click="contentOption = 'Ultimos cambios'">Ultimos cambios</button>
           </div>
         </div>
       </transition>
@@ -25,6 +26,9 @@
         </div>
         <div v-else-if="contentOption === 'Imprimir carnets'">
           <CarnetsPdfGenerator/>
+        </div>
+        <div v-else-if="contentOption === 'Ultimos cambios'">
+          <UltimosCambios/>
         </div>
         <div v-else>
           Not A/B/C
@@ -40,6 +44,7 @@
   import { useRouter, useRoute } from 'vue-router'
   import InscripcionSocio from "@/components/personal/InscripcionSocio.vue";
   import BuscarSocio from "@/components/personal/BuscarSocio.vue";
+  import UltimosCambios from "@/components/personal/UltimosCambios.vue";
   import {isauth} from "@/services/auth.js";
   import Topbar from '@/components/personal/Topbar.vue';
   import CarnetsPdfGenerator from "@/components/personal/CarnetsPdfGenerator.vue";
