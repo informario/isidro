@@ -12,6 +12,7 @@
           <div class="flex flex-col">
             <button @click="contentOption = 'Inscribir socio'">Inscribir socio</button>
             <button @click="contentOption = 'Buscar socio'">Buscar socio</button>
+            <button @click="contentOption = 'Imprimir carnets'">Imprimir carnets</button>
           </div>
         </div>
       </transition>
@@ -21,6 +22,9 @@
         </div>
         <div v-else-if="contentOption === 'Buscar socio'">
           <BuscarSocio/>
+        </div>
+        <div v-else-if="contentOption === 'Imprimir carnets'">
+          <CarnetsPdfGenerator/>
         </div>
         <div v-else>
           Not A/B/C
@@ -38,6 +42,7 @@
   import BuscarSocio from "@/components/personal/BuscarSocio.vue";
   import {isauth} from "@/services/auth.js";
   import Topbar from '@/components/personal/Topbar.vue';
+  import CarnetsPdfGenerator from "@/components/personal/CarnetsPdfGenerator.vue";
   const router = useRouter()
   const route = useRoute();
   const sidebarVisible = ref(true)
