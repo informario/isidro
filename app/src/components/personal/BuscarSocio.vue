@@ -52,11 +52,11 @@
     if (!formSocioRef.value) return {};
     const pd = formSocioRef.value.personalData;
     return {
-      dni: pd.dni,
-      apellido: pd.apellido,
-      nombre: pd.nombre,
-      fecha_nacimiento: pd.fecha_nacimiento,
-      sexo: pd.sexo
+      DNI: pd.dni,
+      Apellido: pd.apellido,
+      Nombre: pd.nombre,
+      Sede: "Puerto Libre",
+      "Firma Responsable": "____________________"
     };
   });
 </script>
