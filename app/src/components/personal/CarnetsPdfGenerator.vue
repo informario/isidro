@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, nextTick, onMounted } from 'vue';
+import { ref, computed, nextTick, onMounted, toRaw, unref} from 'vue';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import Carnet from './Carnet.vue';
@@ -16,7 +16,19 @@ const props = defineProps({
   }
 });
 
-// estado local para miembros (se usa props.items si se pasó)
+function mapToCarnet(member) {
+  // unwrap refs / reactive proxies to plain object
+  const raw = toRaw(unref(member));
+  console.log(raw);
+  return {
+    DNI: raw.datos_personales.dni,
+    Apellido: raw.datos_personales.apellido,
+    Nombre: raw.datos_personales.nombre,
+    Sede: 'Puerto Libre',
+    "Firma Responsable": "____________________"
+  };
+}
+
 const members = ref([]);
 const loading = ref(false);
 const error = ref(null);
@@ -37,10 +49,8 @@ async function fetchMembers() {
   loading.value = true;
   error.value = null;
   try {
-    // Import dinámico para evitar advertencias de import no usado en algunas herramientas
     const module = await import('@/services/personal.js');
     const resp = await module.getAllMembers();
-    // compatibilidad: si la API devolviera directamente un array
     if (Array.isArray(resp)) {
       members.value = resp;
     } else if (resp && Array.isArray(resp.members)) {
@@ -48,7 +58,6 @@ async function fetchMembers() {
     } else if (resp && Array.isArray(resp.data)) {
       members.value = resp.data;
     } else {
-      // si es un objeto con llaves personalizadas, intentar usar resp
       members.value = resp && resp.members ? resp.members : [];
     }
   } catch (err) {
@@ -60,11 +69,9 @@ async function fetchMembers() {
 }
 
 onMounted(() => {
-  // Si no se pasaron items por props, obtenemos los members desde la API
   if (!props.items || props.items.length === 0) {
     fetchMembers();
   } else {
-    // si props.items ya tiene datos, mantener members vacío (usamos props)
     members.value = [];
   }
 });
@@ -73,13 +80,8 @@ async function generatePdf() {
   const source = (props.items && props.items.length) ? props.items : members.value;
   if (!source || source.length === 0) return;
   generating.value = true;
-  // ensure DOM updated
   await nextTick();
-  // select all rendered A4 pages
   const pageEls = Array.from(document.querySelectorAll('.a4page'));
-  // Fallback: algunas versiones de jspdf exportan como named export { jsPDF },
-  // otras como default. Intentamos usar la importación estática y si no existe
-  // cargamos dinámicamente el módulo y tomamos la clase adecuada.
   let JsPDFClass = jsPDF;
   if (!JsPDFClass || typeof JsPDFClass !== 'function') {
     try {
@@ -94,7 +96,6 @@ async function generatePdf() {
   const pdf = new JsPDFClass('p', 'mm', 'a4');
   for (let i = 0; i < pageEls.length; i++) {
     const el = pageEls[i];
-    // html2canvas needs the element to be visible; pages are offscreen (left:-9999px) but rendered
     const canvas = await html2canvas(el, {
       scale: 2,
       useCORS: true,
@@ -123,11 +124,15 @@ async function generatePdf() {
 
     <div v-if="error" style="color: red; margin-top: 8px;">Error cargando miembros: {{ error.message || error }}</div>
 
-    <!-- Offscreen container: visible to html2canvas but not on-screen -->
     <div class="pdf-sheet-wrapper" aria-hidden="true">
       <div v-for="(pageItems, pIndex) in pages" :key="pIndex" class="a4page">
         <div class="cards-grid">
-          <component v-for="(dato, idx) in pageItems" :is="Carnet" :key="dato.dni ?? idx" :datos="dato" :style="{ width: '9cm', height: '5cm', boxSizing: 'border-box' }" />
+          <component
+              v-for="(dato, idx) in pageItems"
+              :is="Carnet"
+              :key="dato.dni ?? idx"
+              :datos="mapToCarnet(dato)"
+              :style="{ width: '9cm', height: '5cm', boxSizing: 'border-box' }" />
         </div>
       </div>
     </div>
@@ -135,28 +140,24 @@ async function generatePdf() {
 </template>
 
 <style scoped>
-/* Offscreen but rendered */
 .pdf-sheet-wrapper {
   position: fixed;
   left: -9999px;
   top: 0;
-  width: 210mm; /* A4 width */
+  width: 210mm;
   height: 297mm;
 }
 
-/* Each A4 page */
 .a4page {
   width: 210mm;
   height: 297mm;
   box-sizing: border-box;
   padding: 12mm;
   background: white;
-  /* Ensure no page breaks inside when printing */
   page-break-after: always;
   display: block;
 }
 
-/* Grid that places 8 cards: 2 columns x 4 rows */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -166,5 +167,4 @@ async function generatePdf() {
   justify-items: stretch;
 }
 
-/* size applied inline to each Carnet component to avoid deep selector warnings */
 </style>

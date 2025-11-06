@@ -7,13 +7,12 @@ import QrcodeVue from 'qrcode.vue';
         required: true
     }
   })
-  const qrUrl = `${apiDomain}/datos?dni=${props.datos.dni}`;  import { ref } from 'vue';
+  const qrUrl = `${apiDomain}/datos?dni=${props.datos.DNI}`;  import { ref } from 'vue';
 </script>
 
 <template>
   <div class="carnet">
-    <div class="header">Municipalidad de San Isidro</div>
-    <div class="header">Dirección General de Tercera Edad</div>
+    <img class="banner" src="/Banner%20San%20Isidro.png" alt="Banner San Isidro" />
     <hr>
     <div class="carnet-content">
       <ul class="datos">
@@ -34,7 +33,7 @@ import QrcodeVue from 'qrcode.vue';
   height: 5cm;
   border: 1px solid #ccc;
   box-sizing: border-box;
-  padding: 12px;
+  padding: 5px;
   background: #fff;
   overflow: hidden;
 }
@@ -56,6 +55,7 @@ import QrcodeVue from 'qrcode.vue';
   align-items: center;
   justify-content: center;
   margin-left: 16px;
+  margin-top: 8px;
   canvas {
     image-rendering: pixelated;
   }
