@@ -12,7 +12,7 @@ import QrcodeVue from 'qrcode.vue';
 
 <template>
   <div class="carnet">
-    <img class="banner" src="/Banner%20San%20Isidro.png" alt="Banner San Isidro" />
+    <img class="banner" src="/Banner_San_Isidro.png" alt="Banner San Isidro" />
     <hr>
     <div class="carnet-content">
       <ul class="datos">
